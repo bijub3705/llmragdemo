@@ -1,5 +1,3 @@
-import os
-import requests
 import chainlit as cl
 from llm import query
 
