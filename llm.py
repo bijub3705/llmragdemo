@@ -1,7 +1,6 @@
 import os
 import requests
 
-os.environ['API_TOKEN'] = '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'
 API_TOKEN = os.environ["API_TOKEN"] 
 headers = {"Authorization": f"Bearer {API_TOKEN}"}
 #API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-v0.1"
