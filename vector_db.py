@@ -6,6 +6,7 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.document_loaders import TextLoader
 from langchain_community.document_loaders import Docx2txtLoader
 from langchain.text_splitter import CharacterTextSplitter
+from image_reader import get_image_text
 
 chroma_client = chromadb.Client()
 default_ef = embedding_functions.DefaultEmbeddingFunction()
@@ -18,12 +19,14 @@ def load_data() -> None:
     for file in os.listdir(root_path):
         doc_path = doc_folder_path+"/"+file
         if file.endswith(".pdf"):
-            loader=PyPDFLoader(doc_path)
+            document=PyPDFLoader(doc_path).load()
         elif file.endswith(".txt"):
-            loader=TextLoader(doc_path)
+            document=TextLoader(doc_path).load()
         elif file.endswith(".docx") or file.endswith(".doc"):
-            loader=Docx2txtLoader(doc_path)
-        documents.extend(loader.load())
+            document=Docx2txtLoader(doc_path).load()
+        elif file.endswith(".png") or file.endswith(".jpg"):
+            document=get_image_text(doc_path)
+        documents.extend(document)
     if len(documents) > 0:
         #print(len(documents))
         load_chunk_persist_data(documents)     

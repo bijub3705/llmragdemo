@@ -17,7 +17,10 @@ def init_messages() -> None:
     st.session_state.messages = []
     st.session_state.messages = [
       SystemMessage(
-        content="""You are a helpful AI assistant. Use the following context to answer the question at the end. Stop when you've answered the question. Do not generate any more than that.
+        content="""You are a helpful AI assistant. 
+        Use the following context to answer the question at the end. Stop when you've answered the question. Do not generate any more than that.
+        Respond "Please elborate more" when you are unable to find an answer.
+        
         Consider the following information to answer questions: \n
         """
       )
@@ -38,6 +41,7 @@ def get_current_prompt(user_input)-> None:
     chunked_vector_data = get_chunk_data(user_input)
     #print(chunked_vector_data)
     prompt_system_message = f"""
+    The following paragraph is a general information to consider:
     {chunked_vector_data}
     """
     st.session_state.messages.append(SystemMessage(content=prompt_system_message))
